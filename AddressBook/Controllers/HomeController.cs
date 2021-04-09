@@ -16,9 +16,9 @@ namespace AddressBook.Controllers
 
         private AddressBookContext _dbContext;
 
-        public HomeController(AddressBookContext context)
+        public HomeController(AddressBookContext dbContext)
         {
-            _dbContext = context;
+            this._dbContext = dbContext;
         }
 
         //public HomeController(ILogger<HomeController> logger)
@@ -32,6 +32,11 @@ namespace AddressBook.Controllers
         }
 
         public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult ViewAll()
         {
             return View();
         }

@@ -17,7 +17,8 @@ namespace AddressBook.DAL
 
             var contacts = new Contact[]
             {
-                new Contact{FirstName="Test", Address = new Address{ } }
+                new Contact{FirstName="Test", LastName="User", Address = new Address{Street = "TestStreet", City = "TestCity", State = "TE", ZipCode = "12345" } },
+                new Contact{FirstName="Austin", LastName="Norden", Address = new Address{Street = "6317 Reo Street", City = "Toledo", State = "OH", ZipCode = "43615" } }
             };
 
             foreach (Contact contact in contacts)
