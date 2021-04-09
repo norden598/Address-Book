@@ -1,5 +1,5 @@
 # Address Book
-This is an application for managing contact information.
+This is an MVC .NET Core application for managing contact information.
 
 ## Author
 Austin Norden
