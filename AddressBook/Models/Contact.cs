@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace AddressBook.Models
 {
@@ -12,6 +13,8 @@ namespace AddressBook.Models
         /// Contact ID (Primary Key)
         /// </summary>
         public int ID { get; set; }
+
+        //[DisplayName("First Name")]
         [Required(ErrorMessage = "First Name is required")]
         [StringLength(maximumLength: 30, ErrorMessage = "First Name is too long")]
         public string FirstName { get; set; }

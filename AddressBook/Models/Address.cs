@@ -16,6 +16,7 @@ namespace AddressBook.Models
         [Required(ErrorMessage = "Street address is required")]
         [StringLength(maximumLength: 30, ErrorMessage = "Street address is too long")]
         public string Street { get; set; }
+        
         /// <summary>
         /// Apartment/Suite number, unit, building, floor, etc. Not required
         /// </summary>

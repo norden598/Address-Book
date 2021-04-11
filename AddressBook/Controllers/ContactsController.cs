@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using AddressBook.Models;
 using AddressBook.DAL;
@@ -20,7 +21,7 @@ namespace AddressBook.Controllers
         /// <summary>
         /// GET: /Contacts/ViewAll
         /// </summary>
-        public IActionResult ViewAll(string sortOrder, string searchString)
+        public ActionResult ViewAll(string sortOrder, string searchString)
         {
             var contacts = from c in this._dbContext.Contacts 
                            select c;
@@ -51,6 +52,7 @@ namespace AddressBook.Controllers
                                                c.Address.ZipCode.Contains(searchString));
             }
 
+            // work out sorting ascending/descending columns
             ViewBag.FirstNameSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "FirstName_Desc" ? "FirstName_Desc" : "FirstName";
             ViewBag.LastNameSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "LastName_Desc" ? "LastName_Desc" : "LastName";
             ViewBag.AddressSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "Address_Desc" ? "Address_Desc" : "Address";
@@ -88,6 +90,23 @@ namespace AddressBook.Controllers
             }
 
             return View(contacts);
+        }
+
+        // GET: /Contacts/Edit/<ContactID>
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+                return new StatusCodeResult((int)HttpStatusCode.BadRequest);
+
+            Contact contact = this._dbContext.Contacts.Where(c => c.ID == id).FirstOrDefault();
+            if (contact == null)
+                return NotFound();
+
+            contact.Address = this._dbContext.Addresses.Where(a => a.ID == contact.AddressID).FirstOrDefault();
+            if (contact.Address == null)
+                return NotFound();
+
+            return View(contact);
         }
     }
 }

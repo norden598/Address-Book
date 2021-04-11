@@ -29,7 +29,7 @@ namespace AddressBook.Controllers
         /// <summary>
         /// GET: Home page
         /// </summary>
-        public IActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }
@@ -37,7 +37,7 @@ namespace AddressBook.Controllers
         /// <summary>
         /// GET: /Home/About
         /// </summary>
-        public IActionResult About()
+        public ActionResult About()
         {
             return View();
         }
@@ -45,7 +45,7 @@ namespace AddressBook.Controllers
         /// <summary>
         /// GET: /Home/ViewAll
         /// </summary>
-        public IActionResult ViewAll()
+        public ActionResult ViewAll()
         {
             return View();
         }
