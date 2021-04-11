@@ -22,6 +22,7 @@ namespace AddressBook.Models
         /// <summary>
         /// Apartment/Suite number, unit, building, floor, etc. Not required
         /// </summary>
+        [DisplayName("Unit (Apt. number, P.O. box, etc.)")]
         [StringLength(maximumLength: 10, ErrorMessage = "Unit/Apt Number is too long")]
         #nullable enable
         public string? Unit { get; set; }

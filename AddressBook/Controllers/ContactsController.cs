@@ -92,6 +92,46 @@ namespace AddressBook.Controllers
             return View(contacts);
         }
 
+        // GET: /Contacts/Create
+        public ActionResult Create()
+        {
+            ViewBag.CategoryList = GetStates();
+            //Contact newContact = new Contact()
+            //{
+            //    FirstName = String.Empty,
+            //    LastName = String.Empty,
+            //    Address = new Address(),
+            //    PhoneNumber = String.Empty
+            //};
+
+            return View();
+        }
+
+        // POST: /Contacts/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Contact contact)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    this._dbContext.Add(contact);
+                    await this._dbContext.SaveChangesAsync();
+                    return RedirectToAction(nameof(ViewAll));
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes.");
+            }
+
+            ViewBag.CategoryList = GetStates();
+
+            return View(contact);
+        }
+
         // GET: /Contacts/Edit/<ContactID>
         public ActionResult Edit(int? id)
         {
