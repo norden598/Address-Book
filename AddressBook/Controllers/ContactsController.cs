@@ -40,6 +40,8 @@ namespace AddressBook.Controllers
                 contact.Address = address;
             }
 
+            this._dbContext.SaveChanges();
+
             // filter contacts based on the input search string, if applicable
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -47,11 +49,7 @@ namespace AddressBook.Controllers
 
                 contacts = contacts.Where(c => c.FirstName.Contains(searchString) ||
                                                c.LastName.Contains(searchString) ||
-                                               c.Address.Street.Contains(searchString) ||
-                                               c.Address.Unit.Contains(searchString) ||
-                                               c.Address.City.Contains(searchString) ||
-                                               c.Address.State.Contains(searchString) ||
-                                               c.Address.ZipCode.Contains(searchString));
+                                               c.Address.TextValue.Contains(searchString));
             }
 
             // work out sorting ascending/descending columns
@@ -113,7 +111,7 @@ namespace AddressBook.Controllers
             return View(contact);
         }
 
-        // POST: Contacts/Edit/<ContactID>
+        // POST: /Contacts/Edit/<ContactID>
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(int? id)
@@ -136,6 +134,57 @@ namespace AddressBook.Controllers
             }
 
             return View(contactToUpdate);
+        }
+
+        // GET: /Contacts/Delete/<ContactID>
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+                return new StatusCodeResult((int)HttpStatusCode.BadRequest);
+
+            Contact contact = this._dbContext.Contacts.Where(c => c.ID == id).FirstOrDefault();
+            if (contact == null)
+                return NotFound();
+
+            contact.Address = this._dbContext.Addresses.Where(a => a.ID == contact.AddressID).FirstOrDefault();
+            if (contact.Address == null)
+                return NotFound();
+
+            return View(contact);
+        }
+
+        // POST: /Contacts/Delete/<ContactID>
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var contactToDelete = await this._dbContext.Contacts.FirstOrDefaultAsync(c => c.ID == id);
+            if (contactToDelete == null)
+                return RedirectToAction(nameof(ViewAll));
+
+            try
+            {
+                int addressID = contactToDelete.AddressID;
+
+                this._dbContext.Contacts.Remove(contactToDelete);
+                await this._dbContext.SaveChangesAsync();
+
+                // if no other contacts have this addess, delete the address from the database too
+                // *** is this the correct way to handle this scenario?
+                if (!this._dbContext.Contacts.Any(c => c.AddressID == addressID))
+                {
+                    this._dbContext.Addresses.Remove(this._dbContext.Addresses.Find(addressID));
+                    await this._dbContext.SaveChangesAsync();
+                }
+                
+                return RedirectToAction(nameof(ViewAll));
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to delete contact.");
+            }
+
+            return View(contactToDelete);
         }
 
         // Builds a list of states for pre-populating the state dropdown field when editing a contact

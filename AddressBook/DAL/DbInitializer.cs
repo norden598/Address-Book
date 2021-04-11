@@ -20,7 +20,7 @@ namespace AddressBook.DAL
 
             var addresses = new List<Address>
             {
-                new Address{ Street = "TestStreet", City = "TestCity", Unit = "Apt. 101", State = "TE", ZipCode = "12345" },
+                new Address{ Street = "TestStreet", City = "TestCity", Unit = "Apt. 101", State = "OH", ZipCode = "12345" },
                 new Address{ Street = "2801 Bancroft Street", City = "Toledo", State = "OH", ZipCode = "43606" },
                 new Address{ Street = "151 Page Street", City = "New Bedford", State = "MA", ZipCode = "02740" },
                 new Address{ Street = "100 Alfred Lerner Way", City = "Cleveland", State = "OH", ZipCode = "44114" },

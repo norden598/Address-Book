@@ -91,15 +91,14 @@
                 @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
 
+                @*script that automatically adds the dashes in phone number input*@
                 @section scripts{
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 
                     <script>
                         $(function () {
-
                             $("#PhoneNumber").mask("999-999-9999");
-                        });
-
+                        }
                     </script>
                 }
             </div>
