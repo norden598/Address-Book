@@ -25,13 +25,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("First Name " + (Convert.ToString(ViewBag.FirstNameSortParam) == "FN" ? "" : "▼"), "ViewAll", new { sortOrder = ViewBag.FirstNameSortParam })
+            @Html.ActionLink("First Name" + (Convert.ToString(ViewBag.FirstNameSortParam) == "FirstName" ? " ▼" : ""), "ViewAll", new { sortOrder = ViewBag.FirstNameSortParam })
         </th>
         <th>
-            @Html.ActionLink("Last Name " + (Convert.ToString(ViewBag.LastNameSortParam) == "LN" ? "" : "▼"), "ViewAll", new { sortOrder = ViewBag.LastNameSortParam })
+            @Html.ActionLink("Last Name" + (Convert.ToString(ViewBag.LastNameSortParam) == "LastName" ? " ▼" : ""), "ViewAll", new { sortOrder = ViewBag.LastNameSortParam })
         </th>
         <th>
-            @Html.ActionLink("Address " + (Convert.ToString(ViewBag.AddressSortParam) == "Add" ? "" : "▼"), "ViewAll", new { sortOrder = ViewBag.AddressSortParam })
+            @Html.ActionLink("Address" + (Convert.ToString(ViewBag.AddressSortParam) == "Address" ? " ▼" : ""), "ViewAll", new { sortOrder = ViewBag.AddressSortParam })
+        </th>
+        <th>
+            @Html.ActionLink("Phone Number" + (Convert.ToString(ViewBag.PhoneSortParam) == "PhoneNumber" ? " ▼" : ""), "ViewAll", new { sortOrder = ViewBag.PhoneSortParam })
         </th>
     </tr>
 
@@ -61,6 +64,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Address.TextValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |

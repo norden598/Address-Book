@@ -13,12 +13,19 @@ namespace AddressBook.Models
         /// </summary>
         public int ID { get; set; }
         [Required(ErrorMessage = "First Name is required")]
-        [StringLength(30, ErrorMessage = "First Name is too long")]
+        [StringLength(maximumLength: 30, ErrorMessage = "First Name is too long")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name is required")]
-        [StringLength(30, ErrorMessage = "Last Name is too long")]
+        [StringLength(maximumLength: 30, ErrorMessage = "Last Name is too long")]
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Phone number formatted as xxx-xxx-xxxx
+        /// </summary>
+        [Required(ErrorMessage = "Phone Number is required")]
+        [StringLength(maximumLength: 12, MinimumLength = 12, ErrorMessage = "Phone Number must be formatted as xxx-xxx-xxxx")]
+        public string PhoneNumber { get; set; }
 
         public Address Address { get; set; }
 
@@ -26,10 +33,5 @@ namespace AddressBook.Models
         /// Contact address ID (Foreign Key)
         /// </summary>
         public int AddressID { get; set; }
-
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = false)]
-        //public DateTime BirthDay { get; set; }
-
     }
 }

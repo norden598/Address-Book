@@ -51,30 +51,36 @@ namespace AddressBook.Controllers
                                                c.Address.ZipCode.Contains(searchString));
             }
 
-            // handle ascending/descending column sorting
-            ViewBag.FirstNameSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "FN" ? "FN" : "FN_Desc";
-            ViewBag.LastNameSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "LN" ? "LN" : "LN_Desc";
-            ViewBag.AddressSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "Add" ? "Add" : "Add_Desc";
+            ViewBag.FirstNameSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "FirstName_Desc" ? "FirstName_Desc" : "FirstName";
+            ViewBag.LastNameSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "LastName_Desc" ? "LastName_Desc" : "LastName";
+            ViewBag.AddressSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "Address_Desc" ? "Address_Desc" : "Address";
+            ViewBag.PhoneSortParam = String.IsNullOrEmpty(sortOrder) || sortOrder != "PhoneNumber_Desc" ? "PhoneNumber_Desc" : "PhoneNumber";
 
             switch (sortOrder)
             {
-                case "FN":
-                    contacts = contacts.OrderByDescending(c => c.FirstName);
-                    break;
-                case "FN_Desc":
+                case "FirstName":
                     contacts = contacts.OrderBy(c => c.FirstName);
                     break;
-                case "LN":
-                    contacts = contacts.OrderByDescending(c => c.LastName);
+                case "FirstName_Desc":
+                    contacts = contacts.OrderByDescending(c => c.FirstName);
                     break;
-                case "LN_Desc":
+                case "LastName":
                     contacts = contacts.OrderBy(c => c.LastName);
                     break;
-                case "Add":
+                case "LastName_Desc":
+                    contacts = contacts.OrderByDescending(c => c.LastName);
+                    break;
+                case "Address":
+                    contacts = contacts.OrderBy(c => c.Address.Street);
+                    break;
+                case "Address_Desc":
                     contacts = contacts.OrderByDescending(c => c.Address.Street);
                     break;
-                case "Add_Desc":
-                    contacts = contacts.OrderBy(c => c.Address.Street);
+                case "PhoneNumber":
+                    contacts = contacts.OrderBy(c => c.PhoneNumber);
+                    break;
+                case "PhoneNumber_Desc":
+                    contacts = contacts.OrderByDescending(c => c.PhoneNumber);
                     break;
                 default:
                     contacts = contacts.OrderBy(c => c.LastName);
