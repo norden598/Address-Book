@@ -14,11 +14,12 @@ namespace AddressBook.Models
         /// </summary>
         public int ID { get; set; }
 
-        //[DisplayName("First Name")]
+        [DisplayName("First Name")]
         [Required(ErrorMessage = "First Name is required")]
         [StringLength(maximumLength: 30, ErrorMessage = "First Name is too long")]
         public string FirstName { get; set; }
 
+        [DisplayName("Last Name")]
         [Required(ErrorMessage = "Last Name is required")]
         [StringLength(maximumLength: 30, ErrorMessage = "Last Name is too long")]
         public string LastName { get; set; }
@@ -26,6 +27,7 @@ namespace AddressBook.Models
         /// <summary>
         /// Phone number formatted as xxx-xxx-xxxx
         /// </summary>
+        [DisplayName("Phone Number")]
         [Required(ErrorMessage = "Phone Number is required")]
         [StringLength(maximumLength: 12, MinimumLength = 12, ErrorMessage = "Phone Number must be formatted as xxx-xxx-xxxx")]
         public string PhoneNumber { get; set; }

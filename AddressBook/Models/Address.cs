@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AddressBook.Models
 {
@@ -42,6 +44,7 @@ namespace AddressBook.Models
         [Required(ErrorMessage = "Zip code is required")]
         [StringLength(maximumLength: 5, MinimumLength = 5, ErrorMessage = "Zip code must be a 5-digit number")]
         [Range(0, 99999, ErrorMessage = "Zip code must be a 5-digit number")]
+        [DisplayName("Zip Code")]
         public string ZipCode { get; set; }
 
         /// <summary>

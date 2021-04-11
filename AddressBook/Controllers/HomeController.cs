@@ -14,11 +14,8 @@ namespace AddressBook.Controllers
     {
         //private readonly ILogger<HomeController> _logger;
 
-        private AddressBookContext _dbContext;
-
-        public HomeController(AddressBookContext dbContext)
+        public HomeController()
         {
-            this._dbContext = dbContext;
         }
 
         //public HomeController(ILogger<HomeController> logger)
