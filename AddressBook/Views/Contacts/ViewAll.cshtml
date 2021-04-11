@@ -6,13 +6,33 @@
 
 <h2>View All Contacts</h2>
 
+<form asp-action="ViewAll" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Search: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search"  /> |
+            <a asp-action="ViewAll">Clear search</a>
+        </p>
+        <p>
+            @if (!String.IsNullOrEmpty(ViewBag.searchString))
+            {
+                <a>@String.Format("Contacts filtered by '{0}'", ViewBag.searchString)</a>
+            }
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <tr>
-        <th>First Name</th>
         <th>
-            @Html.ActionLink("Last Name", "ViewAll", new {sortOrder = ViewBag.NameSortParm })
+            @Html.ActionLink("First Name " + (Convert.ToString(ViewBag.FirstNameSortParam) == "FN" ? "" : "▼"), "ViewAll", new { sortOrder = ViewBag.FirstNameSortParam })
         </th>
-        <th>Address</th>
+        <th>
+            @Html.ActionLink("Last Name " + (Convert.ToString(ViewBag.LastNameSortParam) == "LN" ? "" : "▼"), "ViewAll", new { sortOrder = ViewBag.LastNameSortParam })
+        </th>
+        <th>
+            @Html.ActionLink("Address " + (Convert.ToString(ViewBag.AddressSortParam) == "Add" ? "" : "▼"), "ViewAll", new { sortOrder = ViewBag.AddressSortParam })
+        </th>
     </tr>
 
 @{ 
@@ -40,8 +60,10 @@
             @Html.DisplayFor(modelItem => item.LastName)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Address.TextValue)
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.ID })
         </td>
     </tr>

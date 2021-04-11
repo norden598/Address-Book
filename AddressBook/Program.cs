@@ -19,10 +19,12 @@ namespace AddressBook
             var host = CreateHostBuilder(args).Build();
 
             CreateDbIfNotExists(host);
-
             host.Run();
+
+            return;
         }
 
+        // Pre-populate a local database with data, if the local database doesn't already exist in C:\Users\<username>\AddressBookDB.mdf
         private static void CreateDbIfNotExists(IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -40,6 +42,8 @@ namespace AddressBook
                     logger.LogError(e, "Error occurred creating the database.");
                 }
             }
+
+            return;
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
