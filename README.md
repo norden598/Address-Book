@@ -28,24 +28,30 @@ There are a couple ```//TODO:``` statements in ```ContactsController.cs```.  I c
 
 ## Screenshots
 ![alt text](AddressBook/Images/all_contacts.PNG "Viewing all contacts")
+<br>
 *Viewing all contacts*
 <br><br>
 
 ![alt text](AddressBook/Images/all_contacts_filtered.PNG "Searching/filtering contacts")
+<br>
 *Searching/filtering contacts*
 <br><br>
 
 ![alt text](AddressBook/Images/all_contacts_sorted_last_name_desc.PNG "Sorting contacts")
+<br>
 *Sorting contacts*
 <br><br>
 
 ![alt text](AddressBook/Images/add_new_validation.PNG "Adding new contact with validation")
+<br>
 *Adding new contact with validation*
 <br><br>
 
 ![alt text](AddressBook/Images/edit_contact.PNG "Editing existing contact")
+<br>
 *Editing existing contact*
 <br><br>
 
 ![alt text](AddressBook/Images/delete_contact.PNG "Deleting  contact")
+<br>
 *Deleting contact*
