@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AddressBook.Models;
 
 namespace AddressBook.DAL
@@ -18,6 +16,7 @@ namespace AddressBook.DAL
             if (context.Contacts.Any())
                 return;
 
+            // pre-populate addresses
             var addresses = new List<Address>
             {
                 new Address{ Street = "TestStreet", City = "TestCity", Unit = "Apt. 101", State = "OH", ZipCode = "12345" },
@@ -32,6 +31,7 @@ namespace AddressBook.DAL
 
             context.SaveChanges();
 
+            // pre-populate contacts
             var contacts = new List<Contact>
             {
                 new Contact{ FirstName="Test", LastName="User", Address = addresses.Find(a => a.ID == 1), PhoneNumber= "000-000-0000" },

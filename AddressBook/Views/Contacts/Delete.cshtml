@@ -12,19 +12,19 @@
 
     <div>
         <dl class="row">
-            <dd class="col-sm-10">
+            <dd class="col-md-10">
                 @($"{Model.FirstName} {Model.LastName}")
             </dd>
-            <dd class="col-sm-10">
+            <dd class="col-md-10">
                 @($"{Model.Address.Street}")
             </dd>
             @if (!String.IsNullOrEmpty(Model.Address.Unit))
             {
-                <dd class="col-sm-10">
+                <dd class="col-md-10">
                     @($"{Model.Address.Unit}")
                 </dd>
             }
-            <dd class="col-sm-10">
+            <dd class="col-md-10">
                 @($"{Model.Address.City}, {Model.Address.State} {Model.Address.ZipCode}")
             </dd>
         </dl>

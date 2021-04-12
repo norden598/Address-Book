@@ -92,39 +92,50 @@ namespace AddressBook.Controllers
             return View(contacts);
         }
 
-        // GET: /Contacts/Create
+        /// <summary>
+        /// GET: /Contacts/Create
+        /// </summary>
         public ActionResult Create()
         {
             ViewBag.CategoryList = GetStates();
-            //Contact newContact = new Contact()
-            //{
-            //    FirstName = String.Empty,
-            //    LastName = String.Empty,
-            //    Address = new Address(),
-            //    PhoneNumber = String.Empty
-            //};
 
             return View();
         }
 
-        // POST: /Contacts/Create
+        /// <summary>
+        /// POST: /Contacts/Create
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Contact contact)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                try
                 {
+                    //TODO: the commented code below was intended to prevent a duplicate address from being entered if the new user had the same address as another user in the database
+                    //  SaveChangesAsync() still automatically added the new address into the database and set the new user's address ID to the new duplicate address ID
+                    //  what is the best way to handle this?
+
+                    /*
+                    Address address = contact.Address;
+                    if (String.IsNullOrEmpty(address.Unit))
+                        address.TextValue = $"{address.Street} {address.City}, {address.State}, {address.ZipCode}";
+                    else
+                        address.TextValue = $"{address.Street} {address.Unit} {address.City}, {address.State}, {address.ZipCode}";
+
+                    if (this._dbContext.Addresses.Any(a => a.TextValue == address.TextValue))
+                        contact.AddressID = this._dbContext.Addresses.Where(a => a.TextValue == address.TextValue).FirstOrDefault().ID;
+                    */
+
                     this._dbContext.Add(contact);
                     await this._dbContext.SaveChangesAsync();
                     return RedirectToAction(nameof(ViewAll));
                 }
-            }
-            catch (DbUpdateException /* ex */)
-            {
-                //Log the error (uncomment ex variable name and write a log.
-                ModelState.AddModelError("", "Unable to save changes.");
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes.");
+                }
             }
 
             ViewBag.CategoryList = GetStates();
@@ -132,7 +143,9 @@ namespace AddressBook.Controllers
             return View(contact);
         }
 
-        // GET: /Contacts/Edit/<ContactID>
+        /// <summary>
+        /// GET: /Contacts/Edit/<ContactID>
+        /// </summary>
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -151,7 +164,9 @@ namespace AddressBook.Controllers
             return View(contact);
         }
 
-        // POST: /Contacts/Edit/<ContactID>
+        /// <summary>
+        /// POST: /Contacts/Edit/<ContactID>
+        /// </summary>
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPost(int? id)
@@ -164,7 +179,20 @@ namespace AddressBook.Controllers
             {
                 try
                 {
+                    // see if there was a change in address - if so, also check if anyone else in the database has the old address. If not, we can delete the old address from the database
+                    int contactOldAddressID = contactToUpdate.AddressID;
                     await this._dbContext.SaveChangesAsync();
+
+                    var updatedContact = await this._dbContext.Contacts.FirstOrDefaultAsync(c => c.ID == id);
+                    if (updatedContact.AddressID != contactOldAddressID)
+                    {
+                        if (!this._dbContext.Contacts.Any(c => c.AddressID == contactOldAddressID))
+                        {
+                            this._dbContext.Addresses.Remove(this._dbContext.Addresses.Find(contactOldAddressID));
+                            this._dbContext.SaveChanges();
+                        }
+                    }
+
                     return RedirectToAction(nameof(ViewAll));
                 }
                 catch (DbUpdateException)
@@ -176,7 +204,9 @@ namespace AddressBook.Controllers
             return View(contactToUpdate);
         }
 
-        // GET: /Contacts/Delete/<ContactID>
+        /// <summary>
+        /// GET: /Contacts/Delete/<ContactID>
+        /// </summary>
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -193,7 +223,9 @@ namespace AddressBook.Controllers
             return View(contact);
         }
 
-        // POST: /Contacts/Delete/<ContactID>
+        /// <summary>
+        /// POST: /Contacts/Delete/<ContactID>
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -210,7 +242,7 @@ namespace AddressBook.Controllers
                 await this._dbContext.SaveChangesAsync();
 
                 // if no other contacts have this addess, delete the address from the database too
-                // *** is this the correct way to handle this scenario?
+                // TODO: is this the correct way to handle this scenario?
                 if (!this._dbContext.Contacts.Any(c => c.AddressID == addressID))
                 {
                     this._dbContext.Addresses.Remove(this._dbContext.Addresses.Find(addressID));
